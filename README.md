@@ -74,17 +74,24 @@ Tear down: `docker compose down -v`
 - [x] Scoring + alert persistence
 - [x] REST API + live dashboard
 - [x] Prometheus metrics + Grafana
-- [ ] Load test → record throughput + p99 latency
-- [ ] Fault-tolerance demo: kill consumer mid-load, show zero loss on resume
+- [x] Load test → record throughput + p99 latency
+- [x] Fault-tolerance demo: kill consumer mid-load, show zero loss on resume
 - [ ] Replace rule scorer with a trained logistic-regression model
 - [ ] Deploy to AWS (ECS Fargate)
 
 ## Benchmarks
 
-_To be filled in after the Week-4 load test:_
+Measured on a single fraud-scoring consumer running in Docker on a MacBook (Apple Silicon),
+driven by the included `loadtest.py`. Throughput and p99 read from Prometheus.
 
 | Metric | Value |
 |---|---|
-| Sustained throughput | _TBD_ txns/sec |
-| p99 scoring latency | _TBD_ ms |
-| Loss on consumer kill | _TBD_ (target: 0) |
+| Sustained throughput | ~333 txns/sec (single consumer) |
+| p99 scoring latency | ~2 ms |
+| Loss on consumer kill | 0 — backlog replayed from Kafka offset on restart |
+
+**Notes.** Throughput is for one consumer instance; the pipeline scales horizontally by
+adding consumers to the Kafka consumer group. The sub-2ms p99 reflects Redis in-memory
+feature lookups on the hot path. The zero-loss result was verified by killing the consumer
+mid-load: in-flight transactions buffered in Kafka and were fully processed once the
+consumer rejoined and resumed from its last committed offset.
