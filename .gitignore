@@ -9,3 +9,12 @@ venv/
 .vscode/
 *.png
 *.docx
+
+# Python environments
+venv/
+venv311/
+__pycache__/
+*.pyc
+
+# Generated data (regenerate with: python ml/generate_dataset.py)
+ml/data/
