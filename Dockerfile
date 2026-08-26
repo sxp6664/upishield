@@ -13,6 +13,6 @@ COPY fraud_consumer/ ./fraud_consumer/
 COPY alert_consumer/ ./alert_consumer/
 COPY api/ ./api/
 COPY dashboard/ ./dashboard/
-
+COPY ml/model.joblib ./ml/model.joblib
 # default command is overridden per-service in docker-compose.yml
 CMD ["python", "-c", "print('set a command in compose')"]
