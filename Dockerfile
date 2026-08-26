@@ -10,6 +10,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY common/ ./common/
 COPY producer/ ./producer/
 COPY fraud_consumer/ ./fraud_consumer/
+COPY explain_consumer/ ./explain_consumer/
 COPY alert_consumer/ ./alert_consumer/
 COPY api/ ./api/
 COPY dashboard/ ./dashboard/

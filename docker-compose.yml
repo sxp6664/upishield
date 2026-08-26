@@ -61,6 +61,18 @@ services:
       RATE: "20"
       FRAUD_RATIO: "0.05"
 
+  explain_consumer:
+    build: .
+    command: python -m explain_consumer.main
+    depends_on:
+      kafka:
+        condition: service_healthy
+    environment:
+      KAFKA_BOOTSTRAP: kafka:9092
+      LLM_URL: http://host.docker.internal:11434/v1/chat/completions
+      LLM_MODEL: qwen2.5:3b
+    ports:
+      - "8002:8002"
   fraud_consumer:
     build: .
     command: python -m fraud_consumer.main
